@@ -239,7 +239,7 @@ public class StreamDetailTest {
         ));
     }
 
-    // 利用.peek()来观察整个过程中数据的变化
+    // 利用.peek()来观察整个过程中数据的变化,是一个中间操作，而foreach是最终的操作
     @Test
     public void peek() {
         IntStream.rangeClosed(1, 10)
@@ -257,5 +257,41 @@ public class StreamDetailTest {
                     System.out.println("最终结果");
                     System.out.println(i);
                 });
+    }
+
+    //reduce方法，reduce方法用于将流中的元素进行归约操作。reduce()方法允许我们根据指定的操作，将流中的元素合并为一个结果
+
+    // 计算整数列表的总和
+    @Test
+    public void reduceTest1(){
+        List<Integer> numbers = Arrays.asList(1,2,3,4,5);
+
+        Optional<Integer> sum = numbers.stream()
+                 .reduce((a, b) -> a + b);
+
+        System.out.println(sum.get());
+    }
+
+     //计算整数列表的积
+    @Test
+    public void reduceTest2(){
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        // 使用reduce()方法计算整数列表中的乘积
+        Integer produce = numbers.stream()
+                .reduce(1, (a, b) -> a * b);
+
+        System.out.println(produce);
+    }
+
+    // 使用并行流计算整数列表的总和
+    @Test
+    public void reduceTest3(){
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        Integer sum = numbers.parallelStream()
+                .reduce(0, (a, b) -> a + b, Integer::sum);
+
+        System.out.println(sum);
     }
 }
